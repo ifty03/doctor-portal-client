@@ -7,7 +7,7 @@ const Info = () => {
   return (
     <div
       style={{ marginBottom: "100px" }}
-      className="text-white mx-5 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4"
+      className="text-white md:mx-16 mx-6 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4"
     >
       <div
         style={{ padding: "52px 25px" }}
