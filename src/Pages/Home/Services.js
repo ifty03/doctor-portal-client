@@ -1,5 +1,6 @@
 import React from "react";
 import Service from "./service";
+import ServiceBanner from "./ServiceBanner";
 
 const Services = () => {
   const services = [
@@ -34,6 +35,7 @@ const Services = () => {
           <Service key={service._id} service={service}></Service>
         ))}
       </div>
+      <ServiceBanner />
     </div>
   );
 };
