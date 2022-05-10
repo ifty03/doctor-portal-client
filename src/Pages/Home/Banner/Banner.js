@@ -8,15 +8,16 @@ const Banner = () => {
       style={{ backgroundImage: `url(${bgiImage})` }}
       class="hero min-h-screen"
     >
-      <div class="hero-content grid grid-cols-1 md:grid-cols-2">
+      <div class="hero-content lg:my-32 md:mx-12 mx-4 grid grid-cols-1 lg:grid-cols-2">
         <div>
-          <h1 class="text-5xl font-bold">Box Office News!</h1>
+          <h1 class="text-5xl font-bold">Your Smile Our Smile :)</h1>
           <p class="py-6">
-            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-            excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
-            a id nisi.
+            Healthy living to most people means both physical and mental health
+            are in balance or functioning well together. In many instances,
+            physical and mental health are closely linked, so that a change good
+            or bad in one directly affects the other. Consequently.
           </p>
-          <button class="btn btn-primary  bg-gradient-to-r from-secondary to-primary hover:bg-gradient-to-r hover:from-primary hover:to-secondary">
+          <button class="btn btn-primary text-white  bg-gradient-to-r from-secondary to-primary hover:bg-gradient-to-r hover:from-primary hover:to-secondary">
             Get Started
           </button>
         </div>
