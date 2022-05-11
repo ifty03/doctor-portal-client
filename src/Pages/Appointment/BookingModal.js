@@ -4,6 +4,15 @@ import React from "react";
 const BookingModal = ({ tritment, date }) => {
   const { name, slots } = tritment;
   const newDate = format(date, "PP");
+
+  const handelBooking = (e) => {
+    e.preventDefault();
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const slot = e.target.slot.value;
+    const phone = e.target.phone.value;
+    console.log(name, email, slot, phone);
+  };
   return (
     <div>
       <input type="checkbox" id="booking-modal" class="modal-toggle" />
@@ -16,27 +25,31 @@ const BookingModal = ({ tritment, date }) => {
             ✕
           </label>
           <h3 class="font-bold text-lg">{name}</h3>
-          <form className="form-control mt-10">
+          <form onSubmit={handelBooking} className="form-control mt-10">
             <input
               type="text"
-              readOnly
+              disabled
               value={newDate}
-              class="input mb-3 text-[16px] bg-gray-200 input-bordered"
+              class="input mb-3 text-[16px] input-bordered"
             />
-            <input
-              type="text"
-              readOnly
-              value={slots?.[0]}
-              class="input mb-3 bg-gray-200 text-[16px] input-bordered"
-            />
+            <select
+              name="slot"
+              class="select select-bordered w-full mb-3 bg-[#E6E6E6]"
+            >
+              {slots.map((slot) => (
+                <option>{slot}</option>
+              ))}
+            </select>
             <input
               type="text"
               required
+              name="name"
               placeholder="Full Name"
               class="input mb-3 text-[16px] input-bordered"
             />
             <input
               type="text"
+              name="phone"
               required
               placeholder="Phone Number"
               class="input mb-3 text-[16px] input-bordered"
@@ -44,6 +57,7 @@ const BookingModal = ({ tritment, date }) => {
             <input
               type="email"
               required
+              name="email"
               placeholder="Email email address"
               class="input mb-3 text-[16px] input-bordered"
             />

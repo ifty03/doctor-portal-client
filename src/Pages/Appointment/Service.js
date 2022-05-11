@@ -5,7 +5,7 @@ const Service = ({ service, setTritment }) => {
   return (
     <div class="card bg-base-100 shadow-xl">
       <div class="card-body">
-        <h2 class="card-title block mx-auto">{name}</h2>
+        <h2 class="card-title text-secondary block mx-auto">{name}</h2>
         <p className="text-center">
           {slots.length ? (
             <span>{slots[0]}</span>
