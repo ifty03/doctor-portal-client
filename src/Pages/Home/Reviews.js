@@ -14,7 +14,7 @@ const Reviews = (props) => {
           />
           <div>
             <h3 className="text-xl font-medium">{name}</h3>
-            <time datetime="2021-02-18" className="text-sm text-coolGray-600">
+            <time dateTime="2021-02-18" className="text-sm text-coolGray-600">
               {city}
             </time>
           </div>

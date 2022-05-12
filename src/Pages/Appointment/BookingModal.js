@@ -15,29 +15,29 @@ const BookingModal = ({ tritment, date }) => {
   };
   return (
     <div>
-      <input type="checkbox" id="booking-modal" class="modal-toggle" />
-      <div class="modal modal-bottom sm:modal-middle">
-        <div class="modal-box">
+      <input type="checkbox" id="booking-modal" className="modal-toggle" />
+      <div className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
           <label
-            for="booking-modal"
-            class="btn btn-sm btn-circle absolute right-2 top-2"
+            htmlFor="booking-modal"
+            className="btn btn-sm btn-circle absolute right-2 top-2"
           >
             ✕
           </label>
-          <h3 class="font-bold text-lg">{name}</h3>
+          <h3 className="font-bold text-lg">{name}</h3>
           <form onSubmit={handelBooking} className="form-control mt-10">
             <input
               type="text"
               disabled
               value={newDate}
-              class="input mb-3 text-[16px] input-bordered"
+              className="input mb-3 text-[16px] input-bordered"
             />
             <select
               name="slot"
-              class="select select-bordered w-full mb-3 bg-[#E6E6E6]"
+              className="select select-bordered w-full mb-3 bg-[#E6E6E6]"
             >
-              {slots.map((slot) => (
-                <option>{slot}</option>
+              {slots?.map((slot) => (
+                <option key={slot}>{slot}</option>
               ))}
             </select>
             <input
@@ -45,26 +45,26 @@ const BookingModal = ({ tritment, date }) => {
               required
               name="name"
               placeholder="Full Name"
-              class="input mb-3 text-[16px] input-bordered"
+              className="input mb-3 text-[16px] input-bordered"
             />
             <input
               type="text"
               name="phone"
               required
               placeholder="Phone Number"
-              class="input mb-3 text-[16px] input-bordered"
+              className="input mb-3 text-[16px] input-bordered"
             />
             <input
               type="email"
               required
               name="email"
               placeholder="Email email address"
-              class="input mb-3 text-[16px] input-bordered"
+              className="input mb-3 text-[16px] input-bordered"
             />
-            <div class="modal-action">
+            <div className="modal-action">
               <input
-                for="booking-modal"
-                class="btn w-full"
+                htmlFor="booking-modal"
+                className="btn w-full"
                 type="submit"
                 value="SUBMIT"
               />

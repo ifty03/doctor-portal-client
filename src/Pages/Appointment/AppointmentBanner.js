@@ -12,15 +12,15 @@ const AppointmentBanner = ({ date, setDate }) => {
         backgroundImage: `url(${appointmentBg})`,
         backgroundSize: "90%",
       }}
-      class="hero lg:min-h-screen"
+      className="hero lg:min-h-screen"
     >
-      <div class="hero-content gap-10 lg:mx-20 md:mx-9 mx-5 grid grid-cols-1 lg:grid-cols-2">
+      <div className="hero-content gap-10 lg:mx-20 md:mx-9 mx-5 grid grid-cols-1 lg:grid-cols-2">
         <div className="lg:order-1 mx-auto bg-base-100 rounded-lg shadow-md order-2">
           <DayPicker mode="single" selected={date} onSelect={setDate} />
         </div>
         <img
           src={chair}
-          class="w-full order-1 lg:order-2 rounded-lg shadow-2xl"
+          className="w-full order-1 lg:order-2 rounded-lg shadow-2xl"
           alt="this is chair"
         />
       </div>
