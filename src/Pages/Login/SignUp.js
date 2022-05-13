@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 import {
   useAuthState,
@@ -19,6 +19,14 @@ const SignUp = () => {
   let navigate = useNavigate();
   let location = useLocation();
   const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+  let from = location.state?.from?.pathname || "/";
+  /* protacted page */
+
+  useEffect(() => {
+    if (user) {
+      navigate(from, { replace: true });
+    }
+  }, [user, from, navigate]);
 
   /* loading spinner */
   if (updating || loading || gLoading) {
@@ -46,13 +54,6 @@ const SignUp = () => {
     await signInWithGoogle();
   };
 
-  /* protacted page */
-
-  let from = location.state?.from?.pathname || "/";
-
-  if (user) {
-    navigate(from, { replace: true });
-  }
   return (
     <div>
       <div className="hero px-5 min-h-screen bg-base-100">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { useAuthState, useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
@@ -14,6 +14,13 @@ const Login = () => {
   const [user] = useAuthState(auth);
   let navigate = useNavigate();
   let location = useLocation();
+  let from = location.state?.from?.pathname || "/";
+
+  useEffect(() => {
+    if (user) {
+      navigate(from, { replace: true });
+    }
+  }, [user, from, navigate]);
 
   /* loading spinner */
   if (gLoading || eLoading) {
@@ -40,11 +47,6 @@ const Login = () => {
   };
 
   /* protacted page */
-  let from = location.state?.from?.pathname || "/";
-
-  if (user) {
-    navigate(from, { replace: true });
-  }
 
   return (
     <div>
