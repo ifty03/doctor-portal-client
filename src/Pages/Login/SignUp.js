@@ -1,23 +1,63 @@
 import React from "react";
 import { FcGoogle } from "react-icons/fc";
-import { useSignInWithGoogle } from "react-firebase-hooks/auth";
+import {
+  useAuthState,
+  useCreateUserWithEmailAndPassword,
+  useSignInWithGoogle,
+  useUpdateProfile,
+} from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import Spinner from "../Shared/Spinner/Spinner";
 
 const SignUp = () => {
+  const [createUserWithEmailAndPassword, eUser, loading, error] =
+    useCreateUserWithEmailAndPassword(auth);
+  const [updateProfile, updating, updateError] = useUpdateProfile(auth);
+  const [user] = useAuthState(auth);
+  let navigate = useNavigate();
+  let location = useLocation();
+  const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+
+  /* loading spinner */
+  if (updating || loading || gLoading) {
+    return <Spinner />;
+  }
+
+  const handelSignUp = async (e) => {
+    e.preventDefault();
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    await createUserWithEmailAndPassword(email, password);
+    await updateProfile({ displayName: name });
+    toast.success("user created successfully !");
+    e.target.reset();
+  };
+
+  if (eUser) {
+    console.log(" ", eUser);
+  }
+
   /* googleLogin */
-  const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
   const handelGoogleLogin = async (e) => {
     e.preventDefault();
     await signInWithGoogle();
-    console.log(user);
-    console.log(error);
   };
+
+  /* protacted page */
+
+  let from = location.state?.from?.pathname || "/";
+
+  if (user) {
+    navigate(from, { replace: true });
+  }
   return (
     <div>
       <div className="hero px-5 min-h-screen bg-base-100">
         <div className="card flex-shrink-0 w-full max-w-[455px] shadow-2xl bg-base-100">
-          <form className="card-body">
+          <form onSubmit={handelSignUp} className="card-body">
             <h3 className="text-[25px] font-semibold text-center mb-2">
               Sign Up
             </h3>
@@ -28,6 +68,7 @@ const SignUp = () => {
               <input
                 type="text"
                 placeholder="Your name"
+                name="name"
                 required
                 className="input input-bordered"
               />
@@ -39,6 +80,7 @@ const SignUp = () => {
               <input
                 type="email"
                 placeholder="email"
+                name="email"
                 required
                 className="input input-bordered"
               />
@@ -50,6 +92,7 @@ const SignUp = () => {
               <input
                 type="text"
                 placeholder="password"
+                name="password"
                 required
                 className="input input-bordered"
               />
@@ -60,7 +103,8 @@ const SignUp = () => {
               </label>
             </div>
             <div className="form-control mt-6">
-              <button className="btn btn-accent">Sign Up</button>
+              <small className="text-red-500">{eUser?.message}</small>
+              <input className="btn btn-accent" type="submit" value="Sign Up" />
               <div className="flex justify-center items-center mt-2">
                 <span>Already have an account? </span>
                 <Link

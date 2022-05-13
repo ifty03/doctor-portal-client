@@ -1,22 +1,56 @@
 import React from "react";
 import { FcGoogle } from "react-icons/fc";
-import { useSignInWithGoogle } from "react-firebase-hooks/auth";
+import { useAuthState, useSignInWithGoogle } from "react-firebase-hooks/auth";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import Spinner from "../Shared/Spinner/Spinner";
 
 const Login = () => {
-  const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+  const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+  const [signInWithEmailAndPassword, eUser, eLoading, eError] =
+    useSignInWithEmailAndPassword(auth);
+  const [user] = useAuthState(auth);
+  let navigate = useNavigate();
+  let location = useLocation();
+
+  /* loading spinner */
+  if (gLoading || eLoading) {
+    return <Spinner />;
+  }
+
+  /* email and password login */
+  const handelLogin = async (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    await signInWithEmailAndPassword(email, password);
+
+    toast.success("Login successfully done");
+
+    e.target.reset();
+  };
+
+  /* login with google  */
   const handelGoogleLogin = async (e) => {
     e.preventDefault();
     await signInWithGoogle();
-    console.log(user);
-    console.log(error);
   };
+
+  /* protacted page */
+  let from = location.state?.from?.pathname || "/";
+
+  if (user) {
+    navigate(from, { replace: true });
+  }
+
   return (
     <div>
       <div className="hero px-5 min-h-screen bg-base-100">
         <div className="card flex-shrink-0 w-full max-w-[455px] shadow-2xl bg-base-100">
-          <form className="card-body">
+          <form onSubmit={handelLogin} className="card-body">
             <h3 className="text-[25px] font-semibold text-center mb-2">
               Login
             </h3>
@@ -28,6 +62,7 @@ const Login = () => {
                 type="text"
                 placeholder="email"
                 required
+                name="email"
                 className="input input-bordered"
               />
             </div>
@@ -39,6 +74,7 @@ const Login = () => {
                 type="text"
                 placeholder="password"
                 required
+                name="password"
                 className="input input-bordered"
               />
               <label className="label">
@@ -48,7 +84,8 @@ const Login = () => {
               </label>
             </div>
             <div className="form-control mt-6">
-              <button className="btn btn-accent">Login</button>
+              <small className="text-red-500">{eError?.message}</small>
+              <input className="btn btn-accent" type="submit" value="Login" />
               <div className="flex justify-center items-center mt-2">
                 <span>New to Doctors Portal?</span>
                 <Link

@@ -1,7 +1,12 @@
+import { signOut } from "firebase/auth";
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import toast from "react-hot-toast";
 import { NavLink } from "react-router-dom";
+import auth from "../../firebase.init";
 
 const Navbar = () => {
+  const [user] = useAuthState(auth);
   const navManue = (
     <>
       <li>
@@ -55,14 +60,25 @@ const Navbar = () => {
         </NavLink>
       </li>
       <li>
-        <NavLink
-          className={({ isActive }) =>
-            isActive ? "bg-accent text-white" : "bg-base-100"
-          }
-          to="/login"
-        >
-          Login
-        </NavLink>
+        {user ? (
+          <button
+            onClick={async () => {
+              await signOut(auth);
+              toast.success("sign Out successfully");
+            }}
+          >
+            Sign Out
+          </button>
+        ) : (
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "bg-accent text-white" : "bg-base-100"
+            }
+            to="/login"
+          >
+            Login
+          </NavLink>
+        )}
       </li>
     </>
   );
