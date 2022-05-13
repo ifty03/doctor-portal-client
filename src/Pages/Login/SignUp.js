@@ -4,7 +4,8 @@ import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import { Link } from "react-router-dom";
 
-const Login = () => {
+const SignUp = () => {
+  /* googleLogin */
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
   const handelGoogleLogin = async (e) => {
     e.preventDefault();
@@ -18,14 +19,25 @@ const Login = () => {
         <div className="card flex-shrink-0 w-full max-w-[455px] shadow-2xl bg-base-100">
           <form className="card-body">
             <h3 className="text-[25px] font-semibold text-center mb-2">
-              Login
+              Sign Up
             </h3>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Name</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Your name"
+                required
+                className="input input-bordered"
+              />
+            </div>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Email</span>
               </label>
               <input
-                type="text"
+                type="email"
                 placeholder="email"
                 required
                 className="input input-bordered"
@@ -48,14 +60,14 @@ const Login = () => {
               </label>
             </div>
             <div className="form-control mt-6">
-              <button className="btn btn-accent">Login</button>
+              <button className="btn btn-accent">Sign Up</button>
               <div className="flex justify-center items-center mt-2">
-                <span>New to Doctors Portal?</span>
+                <span>Already have an account? </span>
                 <Link
-                  to="/signup"
+                  to="/login"
                   className="text-secondary ml-1 cursor-pointer"
                 >
-                  Create new account
+                  Please login
                 </Link>
               </div>
             </div>
@@ -70,4 +82,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
