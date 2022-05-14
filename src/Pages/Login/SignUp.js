@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import {
   useAuthState,
@@ -9,6 +9,10 @@ import {
 import auth from "../../firebase.init";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import {
+  useSendEmailVerification,
+  useSendPasswordResetEmail,
+} from "react-firebase-hooks/auth";
 import Spinner from "../Shared/Spinner/Spinner";
 
 const SignUp = () => {
@@ -19,6 +23,8 @@ const SignUp = () => {
   let navigate = useNavigate();
   let location = useLocation();
   const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+  const [sendEmailVerification, sending] = useSendEmailVerification(auth);
+
   let from = location.state?.from?.pathname || "/";
   /* protacted page */
 
@@ -29,7 +35,7 @@ const SignUp = () => {
   }, [user, from, navigate]);
 
   /* loading spinner */
-  if (updating || loading || gLoading) {
+  if (updating || loading || gLoading || sending) {
     return <Spinner />;
   }
 
@@ -40,6 +46,7 @@ const SignUp = () => {
     const password = e.target.password.value;
     await createUserWithEmailAndPassword(email, password);
     await updateProfile({ displayName: name });
+    await sendEmailVerification();
     toast.success("user created successfully !");
     e.target.reset();
   };
@@ -97,11 +104,6 @@ const SignUp = () => {
                 required
                 className="input input-bordered"
               />
-              <label className="label">
-                <p className="label-text-alt link link-hover">
-                  Forgot password?
-                </p>
-              </label>
             </div>
             <div className="form-control mt-6">
               <small className="text-red-500">{eUser?.message}</small>

@@ -1,6 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { useAuthState, useSignInWithGoogle } from "react-firebase-hooks/auth";
+import {
+  useAuthState,
+  useSendPasswordResetEmail,
+  useSignInWithGoogle,
+} from "react-firebase-hooks/auth";
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -11,6 +15,10 @@ const Login = () => {
   const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
   const [signInWithEmailAndPassword, eUser, eLoading, eError] =
     useSignInWithEmailAndPassword(auth);
+  const [sendPasswordResetEmail, resetSending] =
+    useSendPasswordResetEmail(auth);
+
+  const [email, setEmail] = useState("");
   const [user] = useAuthState(auth);
   let navigate = useNavigate();
   let location = useLocation();
@@ -23,7 +31,7 @@ const Login = () => {
   }, [user, from, navigate]);
 
   /* loading spinner */
-  if (gLoading || eLoading) {
+  if (gLoading || eLoading || resetSending) {
     return <Spinner />;
   }
 
@@ -33,10 +41,16 @@ const Login = () => {
     const email = e.target.email.value;
     const password = e.target.password.value;
 
+    fetch("http://localhost:5000/login", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ email }),
+    })
+      .then((res) => res.json())
+      .then((data) => localStorage.setItem("access-token", data?.token));
+
     await signInWithEmailAndPassword(email, password);
-
     toast.success("Login successfully done");
-
     e.target.reset();
   };
 
@@ -62,6 +76,7 @@ const Login = () => {
               </label>
               <input
                 type="text"
+                onBlur={(e) => setEmail(e.target.value)}
                 placeholder="email"
                 required
                 name="email"
@@ -79,7 +94,17 @@ const Login = () => {
                 name="password"
                 className="input input-bordered"
               />
-              <label className="label">
+              <label
+                onClick={async () => {
+                  if (email) {
+                    await sendPasswordResetEmail(email);
+                    toast.success("Reset Email send");
+                  } else {
+                    toast.error("Email is requeued");
+                  }
+                }}
+                className="label"
+              >
                 <p className="label-text-alt link link-hover">
                   Forgot password?
                 </p>

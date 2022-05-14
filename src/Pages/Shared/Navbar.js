@@ -59,6 +59,18 @@ const Navbar = () => {
           Contact Us
         </NavLink>
       </li>
+      {user && (
+        <li>
+          <NavLink
+            className={({ isActive }) =>
+              isActive ? "bg-accent text-white" : "bg-base-100"
+            }
+            to="/dashboard"
+          >
+            Dashboard
+          </NavLink>
+        </li>
+      )}
       <li>
         {user ? (
           <button

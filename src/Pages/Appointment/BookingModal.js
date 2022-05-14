@@ -1,20 +1,48 @@
 import { format } from "date-fns";
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import toast from "react-hot-toast";
 import auth from "../../firebase.init";
 
-const BookingModal = ({ tritment, date }) => {
+const BookingModal = ({ tritment, date, setTritment, refetch }) => {
   const { name, slots } = tritment;
   const newDate = format(date, "PP");
   const [user] = useAuthState(auth);
 
+  const bookingDate = format(date, "PP");
   const handelBooking = (e) => {
     e.preventDefault();
     const name = e.target.name.value;
     const email = e.target.email.value;
     const slot = e.target.slot.value;
     const phone = e.target.phone.value;
-    console.log(name, email, slot, phone);
+    const patientId = tritment?._id;
+
+    const booking = {
+      name,
+      email,
+      slot,
+      phone,
+      date: bookingDate,
+      patientId,
+      tritment: tritment.name,
+    };
+
+    fetch("http://localhost:5000/booking", {
+      method: "post",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(booking),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          toast.success(`Booked for ${bookingDate}`);
+        } else {
+          toast.error(`Booking Exist ${data.booking?.date}`);
+        }
+      });
+    refetch();
+    setTritment(null);
   };
   return (
     <div>

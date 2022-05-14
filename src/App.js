@@ -4,6 +4,10 @@ import "./App.css";
 import About from "./Pages/About/About";
 import Appointment from "./Pages/Appointment/Appointment";
 import Contact from "./Pages/Contact/Contact";
+import AllAppointment from "./Pages/Dashbord/AllAppointment";
+import AppointmentHistory from "./Pages/Dashbord/AppointmentHistory";
+import DashBord from "./Pages/Dashbord/DashBord";
+import MyAppointment from "./Pages/Dashbord/MyAppointment";
 import Home from "./Pages/Home/Home";
 import Login from "./Pages/Login/Login";
 import SignUp from "./Pages/Login/SignUp";
@@ -28,6 +32,27 @@ function App() {
             </RequireAuth>
           }
         ></Route>
+        <Route
+          path="/dashboard"
+          element={
+            <RequireAuth>
+              <DashBord />
+            </RequireAuth>
+          }
+        >
+          <Route index element={<MyAppointment />}></Route>
+          <Route
+            index
+            path="/dashboard/appointmentHistory"
+            element={<AppointmentHistory />}
+          ></Route>
+
+          <Route
+            index
+            path="/dashboard/allAppointment"
+            element={<AllAppointment />}
+          ></Route>
+        </Route>
         <Route path="/contact" element={<Contact />}></Route>
         <Route path="/reviews" element={<Reviews />}></Route>
         <Route path="/login" element={<Login />}></Route>
