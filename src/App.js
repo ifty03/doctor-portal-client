@@ -44,16 +44,16 @@ function App() {
           <Route index element={<MyAppointment />}></Route>
           <Route
             index
-            path="/dashboard/appointmentHistory"
+            path="appointmentHistory"
             element={<AppointmentHistory />}
           ></Route>
 
           <Route
             index
-            path="/dashboard/allAppointment"
+            path="allAppointment"
             element={<AllAppointment />}
           ></Route>
-          <Route index path="/dashboard/users" element={<Users />}></Route>
+          <Route index path="users" element={<Users />}></Route>
         </Route>
         <Route path="/contact" element={<Contact />}></Route>
         <Route path="/reviews" element={<Reviews />}></Route>

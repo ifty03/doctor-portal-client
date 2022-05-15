@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 
 const DashBord = () => {
   return (
@@ -21,12 +21,7 @@ const DashBord = () => {
         <ul class="menu p-4 overflow-y-auto w-72 bg-base-100 text-base-content">
           {/* <!-- Sidebar content here --> */}
           <li>
-            <NavLink
-              className={({ isActive }) => isActive && "bg-accent text-white"}
-              to="/dashboard"
-            >
-              My Appointment
-            </NavLink>
+            <Link to="/dashboard">My Appointment</Link>
             <NavLink
               className={({ isActive }) => isActive && "bg-accent text-white"}
               to="/dashboard/appointmentHistory"
