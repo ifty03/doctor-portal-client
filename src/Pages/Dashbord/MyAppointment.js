@@ -4,14 +4,25 @@ import auth from "../../firebase.init";
 import { useQuery } from "react-query";
 import Spinner from "../Shared/Spinner/Spinner";
 import { FiEdit } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
 
 const MyAppointment = () => {
   const [user] = useAuthState(auth);
   const { data, isLoading, reFetch } = useQuery(["booking", user], () =>
-    fetch(`http://localhost:5000/booking?email=${user?.email}`).then((res) =>
-      res.json()
-    )
+    fetch(`http://localhost:5000/booking?email=${user?.email}`, {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${localStorage.getItem("access-token")}`,
+      },
+    }).then((res) => {
+      if (res.status === 401 || res.status === 403) {
+        signOut(auth);
+        localStorage.removeItem("access-token");
+        Navigate("/");
+      }
+      return res.json();
+    })
   );
   if (isLoading) {
     return <Spinner />;
@@ -30,7 +41,7 @@ const MyAppointment = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((book, index) => {
+          {data?.map((book, index) => {
             return (
               <tr key={index} className="hover">
                 <th>{index + 1}</th>

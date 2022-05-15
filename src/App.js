@@ -8,6 +8,7 @@ import AllAppointment from "./Pages/Dashbord/AllAppointment";
 import AppointmentHistory from "./Pages/Dashbord/AppointmentHistory";
 import DashBord from "./Pages/Dashbord/DashBord";
 import MyAppointment from "./Pages/Dashbord/MyAppointment";
+import Users from "./Pages/Dashbord/Users";
 import Home from "./Pages/Home/Home";
 import Login from "./Pages/Login/Login";
 import SignUp from "./Pages/Login/SignUp";
@@ -52,6 +53,7 @@ function App() {
             path="/dashboard/allAppointment"
             element={<AllAppointment />}
           ></Route>
+          <Route index path="/dashboard/users" element={<Users />}></Route>
         </Route>
         <Route path="/contact" element={<Contact />}></Route>
         <Route path="/reviews" element={<Reviews />}></Route>

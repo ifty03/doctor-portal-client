@@ -9,10 +9,8 @@ import {
 import auth from "../../firebase.init";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import {
-  useSendEmailVerification,
-  useSendPasswordResetEmail,
-} from "react-firebase-hooks/auth";
+import { useSendEmailVerification } from "react-firebase-hooks/auth";
+import useToken from "../../Hooks/useToken";
 import Spinner from "../Shared/Spinner/Spinner";
 
 const SignUp = () => {
@@ -24,15 +22,16 @@ const SignUp = () => {
   let location = useLocation();
   const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
   const [sendEmailVerification, sending] = useSendEmailVerification(auth);
+  const [token] = useToken(eUser || gUser);
 
   let from = location.state?.from?.pathname || "/";
   /* protacted page */
 
   useEffect(() => {
-    if (user) {
+    if (token) {
       navigate(from, { replace: true });
     }
-  }, [user, from, navigate]);
+  }, [user, from, navigate, token]);
 
   /* loading spinner */
   if (updating || loading || gLoading || sending) {

@@ -10,6 +10,7 @@ import auth from "../../firebase.init";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import Spinner from "../Shared/Spinner/Spinner";
+import useToken from "../../Hooks/useToken";
 
 const Login = () => {
   const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
@@ -17,6 +18,7 @@ const Login = () => {
     useSignInWithEmailAndPassword(auth);
   const [sendPasswordResetEmail, resetSending] =
     useSendPasswordResetEmail(auth);
+  const [token] = useToken(gUser || eUser);
 
   const [email, setEmail] = useState("");
   const [user] = useAuthState(auth);
@@ -25,10 +27,10 @@ const Login = () => {
   let from = location.state?.from?.pathname || "/";
 
   useEffect(() => {
-    if (user) {
+    if (token) {
       navigate(from, { replace: true });
     }
-  }, [user, from, navigate]);
+  }, [user, from, navigate, token]);
 
   /* loading spinner */
   if (gLoading || eLoading || resetSending) {
@@ -40,15 +42,6 @@ const Login = () => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-
-    fetch("http://localhost:5000/login", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ email }),
-    })
-      .then((res) => res.json())
-      .then((data) => localStorage.setItem("access-token", data?.token));
-
     await signInWithEmailAndPassword(email, password);
     toast.success("Login successfully done");
     e.target.reset();

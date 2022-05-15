@@ -39,6 +39,12 @@ const DashBord = () => {
             >
               All Appointment
             </NavLink>
+            <NavLink
+              className={({ isActive }) => isActive && "bg-accent text-white"}
+              to="/dashboard/users"
+            >
+              All Users
+            </NavLink>
           </li>
         </ul>
       </div>
