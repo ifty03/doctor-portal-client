@@ -28,7 +28,7 @@ const BookingModal = ({ tritment, date, setTritment, refetch }) => {
       tritment: tritment.name,
     };
 
-    fetch("http://localhost:5000/booking", {
+    fetch("https://doctors-prortal.herokuapp.com/booking", {
       method: "post",
       headers: { "content-type": "application/json" },
       body: JSON.stringify(booking),

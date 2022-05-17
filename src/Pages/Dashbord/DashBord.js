@@ -12,7 +12,6 @@ const DashBord = () => {
       <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
       <div class="drawer-content bg-[#F1F5F9] px-10 py-7">
         <h3 className="text-secondary text-2xl mb-3 text-center">Dashboard</h3>
-        <h3 className="text-secondary text-2xl mb-3">Total Appointment</h3>
         <Outlet />
         <label
           for="my-drawer-2"
@@ -40,12 +39,24 @@ const DashBord = () => {
               All Appointment
             </NavLink>
             {admin && (
-              <NavLink
-                className={({ isActive }) => isActive && "bg-accent text-white"}
-                to="/dashboard/users"
-              >
-                All Users
-              </NavLink>
+              <>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive && "bg-accent text-white"
+                  }
+                  to="/dashboard/users"
+                >
+                  All Users
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive && "bg-accent text-white"
+                  }
+                  to="/dashboard/addDoctor"
+                >
+                  Add A Doctor
+                </NavLink>
+              </>
             )}
           </li>
         </ul>

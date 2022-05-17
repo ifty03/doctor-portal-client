@@ -10,12 +10,15 @@ import { signOut } from "firebase/auth";
 const MyAppointment = () => {
   const [user] = useAuthState(auth);
   const { data, isLoading, reFetch } = useQuery(["booking", user], () =>
-    fetch(`http://localhost:5000/booking?email=${user?.email}`, {
-      method: "GET",
-      headers: {
-        authorization: `Bearer ${localStorage.getItem("access-token")}`,
-      },
-    }).then((res) => {
+    fetch(
+      `https://doctors-prortal.herokuapp.com/booking?email=${user?.email}`,
+      {
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${localStorage.getItem("access-token")}`,
+        },
+      }
+    ).then((res) => {
       if (res.status === 401 || res.status === 403) {
         signOut(auth);
         localStorage.removeItem("access-token");
@@ -29,6 +32,9 @@ const MyAppointment = () => {
   }
   return (
     <div class="overflow-x-auto">
+      <h2 className="text-2xl text-secondary mb-2">
+        Total Appointment {data?.length}
+      </h2>
       <table class="table w-full">
         {/* <!-- head --> */}
         <thead>

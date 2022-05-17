@@ -16,7 +16,7 @@ const Users = () => {
     isLoading,
     refetch,
   } = useQuery("users", () => {
-    return fetch("http://localhost:5000/users", {
+    return fetch("https://doctors-prortal.herokuapp.com/users", {
       method: "GET",
       headers: {
         authorization: `Bearer ${localStorage.getItem("access-token")}`,
@@ -32,7 +32,7 @@ const Users = () => {
   });
 
   const makeAdmin = (email) => {
-    fetch(`http://localhost:5000/user/admin/${email}`, {
+    fetch(`https://doctors-prortal.herokuapp.com/user/admin/${email}`, {
       method: "PUT",
       headers: {
         authorization: `Bearer ${localStorage.getItem("access-token")}`,

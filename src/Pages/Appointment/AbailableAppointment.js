@@ -13,9 +13,9 @@ const AbailableAppointment = ({ date }) => {
     isLoading,
     refetch,
   } = useQuery(["available", bookingDate], () =>
-    fetch(`http://localhost:5000/available?date=${bookingDate}`).then((res) =>
-      res.json()
-    )
+    fetch(
+      `https://doctors-prortal.herokuapp.com/available?date=${bookingDate}`
+    ).then((res) => res.json())
   );
   if (isLoading) {
     return <Spinner />;
