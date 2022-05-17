@@ -12,6 +12,7 @@ import Users from "./Pages/Dashbord/Users";
 import Home from "./Pages/Home/Home";
 import Login from "./Pages/Login/Login";
 import SignUp from "./Pages/Login/SignUp";
+import RequirAdmin from "./Pages/RequireAdmin";
 import RequireAuth from "./Pages/RequireAuth";
 import Reviews from "./Pages/Reviews/Reviews";
 import Footer from "./Pages/Shared/Footer";
@@ -53,7 +54,15 @@ function App() {
             path="allAppointment"
             element={<AllAppointment />}
           ></Route>
-          <Route index path="users" element={<Users />}></Route>
+          <Route
+            index
+            path="users"
+            element={
+              <RequirAdmin>
+                <Users />
+              </RequirAdmin>
+            }
+          ></Route>
         </Route>
         <Route path="/contact" element={<Contact />}></Route>
         <Route path="/reviews" element={<Reviews />}></Route>

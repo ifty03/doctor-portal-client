@@ -3,10 +3,14 @@ import React from "react";
 import toast from "react-hot-toast";
 import { useQuery } from "react-query";
 import { Navigate } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import Spinner from "../../Pages/Shared/Spinner/Spinner";
+import useIsAdmin from "../../Hooks/useIsAdmin";
 
 const Users = () => {
+  const [user] = useAuthState(auth);
+  useIsAdmin(user);
   const {
     data: users,
     isLoading,
