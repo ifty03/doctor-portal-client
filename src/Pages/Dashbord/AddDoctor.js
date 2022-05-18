@@ -6,12 +6,13 @@ import Spinner from "../Shared/Spinner/Spinner";
 
 const AddDoctor = () => {
   const [selectedFile, setSelectedFile] = useState();
+  const [loading, setLoading] = useState(false);
   const { data: services, isLoading } = useQuery("services", () => {
     return fetch("https://doctors-prortal.herokuapp.com/service", {
       method: "GET",
     }).then((res) => res.json());
   });
-  if (isLoading) {
+  if (isLoading || loading) {
     return <Spinner />;
   }
 
@@ -20,6 +21,7 @@ const AddDoctor = () => {
   };
 
   const handelAddDoctor = (e) => {
+    setLoading(true);
     const key = "6ae4be522324a7f35282e6aa517d4990";
     e.preventDefault();
     const name = e.target.name.value;
@@ -54,11 +56,13 @@ const AddDoctor = () => {
             })
               .then((res) => {
                 if (res.status === 401 || res.status === 401) {
+                  setLoading(false);
                   toast.error("doctor information doesn't added");
                 }
                 return res.json();
               })
               .then((data) => {
+                setLoading(false);
                 if (data?.acknowledged) {
                   toast.success("Successfully doctors information added");
                   e.target.reset();

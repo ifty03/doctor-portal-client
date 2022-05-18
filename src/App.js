@@ -8,6 +8,7 @@ import AddDoctor from "./Pages/Dashbord/AddDoctor";
 import AllAppointment from "./Pages/Dashbord/AllAppointment";
 import AppointmentHistory from "./Pages/Dashbord/AppointmentHistory";
 import DashBord from "./Pages/Dashbord/DashBord";
+import ManageDoctors from "./Pages/Dashbord/ManageDoctors";
 import MyAppointment from "./Pages/Dashbord/MyAppointment";
 import Users from "./Pages/Dashbord/Users";
 import Home from "./Pages/Home/Home";
@@ -45,18 +46,12 @@ function App() {
         >
           <Route index element={<MyAppointment />}></Route>
           <Route
-            index
             path="appointmentHistory"
             element={<AppointmentHistory />}
           ></Route>
 
+          <Route path="allAppointment" element={<AllAppointment />}></Route>
           <Route
-            index
-            path="allAppointment"
-            element={<AllAppointment />}
-          ></Route>
-          <Route
-            index
             path="users"
             element={
               <RequirAdmin>
@@ -65,11 +60,18 @@ function App() {
             }
           ></Route>
           <Route
-            index
             path="addDoctor"
             element={
               <RequirAdmin>
                 <AddDoctor />
+              </RequirAdmin>
+            }
+          ></Route>
+          <Route
+            path="manageDoctors"
+            element={
+              <RequirAdmin>
+                <ManageDoctors />
               </RequirAdmin>
             }
           ></Route>

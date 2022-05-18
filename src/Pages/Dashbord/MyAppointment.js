@@ -31,11 +31,11 @@ const MyAppointment = () => {
     return <Spinner />;
   }
   return (
-    <div class="overflow-x-auto">
+    <div className="overflow-x-auto">
       <h2 className="text-2xl text-secondary mb-2">
         Total Appointment {data?.length}
       </h2>
-      <table class="table w-full">
+      <table className="table w-full">
         {/* <!-- head --> */}
         <thead>
           <tr>
